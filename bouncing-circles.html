@@ -23,11 +23,14 @@
 <body>
   <div class="canvas-outer">
     <canvas id="c" width="500" height="500"></canvas>
-    <button id="start">Start</button>
-    <button id="stop">Stop</button>
     <div>
-      <button id="fixedColor" class="active">Fixed Color</button>
-      <button id="randomColor">Random Color</button>
+      <button id="start">Start</button>
+      <button id="stop">Stop</button>
+    </div>
+    <div>
+      <button data-value="-1" disabled="true">-</button>
+      <button data-value="1">+</button>
+      <span id="totalCircles"></span>
     </div>
   </div>
 
@@ -45,80 +48,115 @@
 
     let globalID, animate = false;
 
-      function init(){
-        var canvas = document.getElementsByTagName('canvas')[0];
-        var startBtn = document.getElementById('start');
-        var stopBtn = document.getElementById('stop');
-        var c = canvas.getContext('2d');
-        var w = canvas.width;
-        var h = canvas.height;
-        var container = {x:0,y:0,width:w,height:h};
-        var circles = [
-          //   {x:100,y:100,r:100,vx:2,vy:2.4,color:"rgba(255,0,0,0.5)"},
-          //   {x:400,y:100,r:60,vx:-4,vy:3,color:"rgba(0,0,255,0.5)"},
-        		// {x:100,y:200,r:40,vx:3,vy:1.5,color:"rgba(0,255,0,0.5)"},
-        		{x:200,y:100,r:50,vx:2,vy:1,color:`hsl(${genRandom(0, 360, 1)}, 100%, 50%)`}
-        ];
+    // function init(){
+      var canvas = document.getElementsByTagName('canvas')[0];
+      var startBtn = document.getElementById('start');
+      var stopBtn = document.getElementById('stop');
+      var circleCountBtns = document.querySelectorAll('[data-value]');
+      var totalCircles = document.querySelector('#totalCircles');
+      var c = canvas.getContext('2d');
+      var w = canvas.width;
+      var h = canvas.height;
+      var container = {x:0,y:0,width:w,height:h};
+      var circles = [
+      		{x:200,y:100,r:50,vx:2,vy:1,color:`hsl(${genRandom(0, 360, 1)}, 100%, 50%)`}
+      ];
+      totalCircles.innerText = circles.length;
 
-        // returns random number between min and max (we can provide steps also)
-        function genRandom(min, max, steps) {
-          const random = Math.random() * (max - min) + min;
-          const round = Math.round(random)
+      // returns random number between min and max (we can provide steps also)
+      function genRandom(min, max, steps) {
+        const random = Math.random() * (max - min) + min;
+        const round = Math.round(random)
 
-          return round - (round % steps);
+        return round - (round % steps);
+      }
+      function circleCount(e) {
+        if(e.target.dataset.value == 1) {
+          const circle = {
+            x: genRandom(100, 400, 5),
+            y: genRandom(100, 400, 5),
+            r: genRandom(50, 100, 5),
+            vx: genRandom(-2, 2, 1),
+            vy: genRandom(-2, 2, 1),
+            color: `hsl(${genRandom(0, 360, 1)}, 100%, 50%)`
+          };
+          circles.push(circle);
+        } else {
+          const i = genRandom(0, circles.length-1, 1);
+          circles.splice(i, 1)
         }
-        function start(e) {
-          startBtn.classList.add('active');
-          stopBtn.classList.remove('active');
-          stop();
+        if(circles.length == 1) {
+          circleCountBtns[0].setAttribute('disabled', true);
+        } else if(circles.length == 5) {
+          circleCountBtns[0].removeAttribute('disabled');
+          circleCountBtns[1].setAttribute('disabled', true);
+        } else {
+          circleCountBtns[0].removeAttribute('disabled');
+          circleCountBtns[1].removeAttribute('disabled');
+        }
+        totalCircles.innerText = circles.length;
+        stop()
+        if(startBtn.classList.contains('active')) {
           animate = true;
-          gloabalId = requestAnimationFrame(draw);        
         }
-        function stop(e) {
-          // only if stopBtn is really clicked, don't run this on just call from another function
-          if(e) {
-            stopBtn.classList.add('active');
-            startBtn.classList.remove('active');
+        draw();
+      }
+      function start(e) {
+        startBtn.classList.add('active');
+        stopBtn.classList.remove('active');
+        stop();
+        animate = true;
+        gloabalId = requestAnimationFrame(draw);        
+      }
+      function stop(e) {
+        // only if stopBtn is really clicked, don't run this on just call from another function
+        if(e) {
+          stopBtn.classList.add('active');
+          startBtn.classList.remove('active');
+        }
+        animate = false;
+        cancelAnimationFrame(globalID);
+      }
+      function draw(){
+        console.log(animate)
+        // fill canvas with yellow
+        c.fillStyle = 'yellow';
+        c.fillRect(container.x,container.y,container.width,container.height);
+        for(var i=0; i <circles.length; i++){
+          c.fillStyle = circles[i].color;
+          // c.fillStyle = `hsl(${genRandom(0, 360, 1)}, 100%, 50%)`;
+          c.beginPath();
+          c.arc(circles[i].x,circles[i].y,circles[i].r,0,2*Math.PI,false);
+          c.fill();
+          if((circles[i].x - circles[i].r + circles[i].vx < container.x) 
+          || (circles[i].x + circles[i].r + circles[i].vx > container.width)){
+            circles[i].vx = -circles[i].vx;
           }
-          animate = false;
-          cancelAnimationFrame(globalID);
-        }
-        function draw(){
-          // fill canvas with yellow
-          c.fillStyle = 'yellow';
-          c.fillRect(container.x,container.y,container.width,container.height);
-          for(var i=0; i <circles.length; i++){
-            c.fillStyle = circles[i].color;
-            // c.fillStyle = `hsl(${genRandom(0, 360, 1)}, 100%, 50%)`;
-            c.beginPath();
-            c.arc(circles[i].x,circles[i].y,circles[i].r,0,2*Math.PI,false);
-            c.fill();
-            if((circles[i].x - circles[i].r + circles[i].vx < container.x) 
-            || (circles[i].x + circles[i].r + circles[i].vx > container.width)){
-              circles[i].vx = -circles[i].vx;
-            }
-            if((circles[i].y - circles[i].r + circles[i].vy < container.y) 
-            || (circles[i].y + circles[i].r + circles[i].vy > container.height)){
-              circles[i].vy = -circles[i].vy;
-            }
+          if((circles[i].y - circles[i].r + circles[i].vy < container.y) 
+          || (circles[i].y + circles[i].r + circles[i].vy > container.height)){
+            circles[i].vy = -circles[i].vy;
+          }
+          if(animate) {
             circles[i].x +=circles[i].vx;
             circles[i].y +=circles[i].vy;
           }
-          // repeat animations iff Start button is clicked otherwise just draw once
-          if(animate) {
-            globalID = requestAnimationFrame(draw);
-          }
         }
-        
-        animate = true; // to start the animation automatically
-        gloabalId = requestAnimationFrame(draw);
-
-        // Event Listeners
-        startBtn.addEventListener('click', start);
-        stopBtn.addEventListener('click', stop);
+        // repeat animations iff Start button is clicked otherwise just draw once
+        if(animate) {
+          globalID = requestAnimationFrame(draw);
+        }
       }
-      // invoke function init once document is fully loaded
-      window.addEventListener('load',init,false);
+      
+      // animate = true; // to start the animation automatically
+      gloabalId = requestAnimationFrame(draw);
+
+      // Event Listeners
+      startBtn.addEventListener('click', start);
+      stopBtn.addEventListener('click', stop);
+      circleCountBtns.forEach(circleCountBtn => circleCountBtn.addEventListener('click', circleCount));
+    // }
+    // invoke function init once document is fully loaded
+    // window.addEventListener('load', init, false);
   </script>
 
 </body>
