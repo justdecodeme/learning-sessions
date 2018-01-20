@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Circles bouncing</title>
+  <title>Bouncing Circles</title>
   <style>
     body {
       background-color: #626262;
@@ -10,36 +10,78 @@
     .canvas-outer {
       background: red none repeat scroll 0 0;
       height: 100vh;
-      width: 100vw;
+      width: 100%;
+    }
+    canvas {
+      background: yellow;
+    }
+    .active {
+      background: yellow;
     }
   </style>
 </head>
 <body>
   <div class="canvas-outer">
-    <canvas id="canvas" style="background-color:#fff; height:500px; width:500px;"></canvas>
+    <canvas id="c" width="500" height="500"></canvas>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <div>
+      <button id="fixedColor" class="active">Fixed Color</button>
+      <button id="randomColor">Random Color</button>
+    </div>
   </div>
 
   <script>
-(function(){
-function init(){
-     var canvas = document.getElementsByTagName('canvas')[0];
-     var c = canvas.getContext('2d');
-     var w = canvas.width = canvas.scrollWidth;
-     var h = canvas.height = canvas.scrollHeight;
-     var container = {x:0,y:0,width:w,height:h};
-     var circles = [
-                    {x:100,y:100,r:100,vx:2,vy:2.4,color:"rgba(255,0,0,0.5)"},
-                    {x:400,y:100,r:60,vx:-4,vy:3,color:"rgba(0,0,255,0.5)"},
-					{x:100,y:200,r:40,vx:3,vy:1.5,color:"rgba(0,255,0,0.5)"},
-					{x:200,y:400,r:20,vx:-3,vy:1.5,color:"rgba(0,0,0,0.5)"}
-     ];
-     function draw(){
-         c.fillStyle = 'yellow';
-         c.fillRect(container.x,container.y,container.width,container.height);
-         //c.clearRect(container.x,container.y,container.width,container.height);
-         //c.strokeRect(container.x,container.y,container.width,container.height);
-         for(var i=0; i <circles.length; i++){
-             // c.fillStyle = 'hsl(' + circles[i].color + ',100%,50%)';
+    // universal rrequestAnimationFrame() and its counterpart cancelAnimationFrame() function that works in the maximum number of browsers, with a fallback built in
+    window.requestAnimationFrame = window.requestAnimationFrame
+        || window.mozRequestAnimationFrame
+        || window.webkitRequestAnimationFrame
+        || window.msRequestAnimationFrame
+        || function(f){return setTimeout(f, 1000/60)}; // simulate calling code 60 
+     
+    window.cancelAnimationFrame = window.cancelAnimationFrame
+        || window.mozCancelAnimationFrame
+        || function(requestID){clearTimeout(requestID)}; // fall back
+
+    let globalID, animate = false;
+
+      function init(){
+        var canvas = document.getElementsByTagName('canvas')[0];
+        var startBtn = document.getElementById('start');
+        var stopBtn = document.getElementById('stop');
+        var c = canvas.getContext('2d');
+        var w = canvas.width;
+        var h = canvas.height;
+        var container = {x:0,y:0,width:w,height:h};
+        var circles = [
+          //   {x:100,y:100,r:100,vx:2,vy:2.4,color:"rgba(255,0,0,0.5)"},
+          //   {x:400,y:100,r:60,vx:-4,vy:3,color:"rgba(0,0,255,0.5)"},
+        		// {x:100,y:200,r:40,vx:3,vy:1.5,color:"rgba(0,255,0,0.5)"},
+        		{x:200,y:100,r:50,vx:2,vy:1,color:"rgba(255,0,0,0.5)"}
+        ];
+
+        function start(e) {
+          startBtn.classList.add('active');
+          stopBtn.classList.remove('active');
+          stop();
+          animate = true;
+          gloabalId = requestAnimationFrame(draw);        
+        }
+        function stop(e) {
+          // only if stopBtn is really clicked, don't run this on just call from another function
+          if(e) {
+            stopBtn.classList.add('active');
+            startBtn.classList.remove('active');
+          }
+          animate = false;
+          cancelAnimationFrame(globalID);
+        }
+        function draw(){
+          // fill canvas with yellow
+          c.fillStyle = 'yellow';
+          c.fillRect(container.x,container.y,container.width,container.height);
+          for(var i=0; i <circles.length; i++){
+            // fill circle with their corresponding colors
              c.fillStyle = circles[i].color;
              c.beginPath();
              c.arc(circles[i].x,circles[i].y,circles[i].r,0,2*Math.PI,false);
@@ -54,15 +96,23 @@ function init(){
              }
              circles[i].x +=circles[i].vx;
              circles[i].y +=circles[i].vy;
-         }
-         requestAnimationFrame(draw);
-     }
-    requestAnimationFrame(draw);
-}
-//invoke function init once document is fully loaded
-window.addEventListener('load',init,false);
-}());  //self invoking function
-</script>
+          }
+          // repeat animations iff Start button is clicked otherwise just draw once
+          if(animate) {
+            globalID = requestAnimationFrame(draw);
+          }
+        }
+        
+        // animate = true; // to start the animation automatically
+        gloabalId = requestAnimationFrame(draw);
+
+        // Event Listeners
+        startBtn.addEventListener('click', start);
+        stopBtn.addEventListener('click', stop);
+      }
+      // invoke function init once document is fully loaded
+      window.addEventListener('load',init,false);
+  </script>
 
 </body>
 </html>
