@@ -60,6 +60,13 @@
         		{x:200,y:100,r:50,vx:2,vy:1,color:"rgba(255,0,0,0.5)"}
         ];
 
+        // returns random number between min and max (we can provide steps also)
+        function genRandom(min, max, steps) {
+          const random = Math.random() * (max - min) + min;
+          const round = Math.round(random)
+
+          return round - (round % steps);
+        }
         function start(e) {
           startBtn.classList.add('active');
           stopBtn.classList.remove('active');
@@ -81,21 +88,21 @@
           c.fillStyle = 'yellow';
           c.fillRect(container.x,container.y,container.width,container.height);
           for(var i=0; i <circles.length; i++){
-            // fill circle with their corresponding colors
-             c.fillStyle = circles[i].color;
-             c.beginPath();
-             c.arc(circles[i].x,circles[i].y,circles[i].r,0,2*Math.PI,false);
-             c.fill();
-             if((circles[i].x - circles[i].r + circles[i].vx < container.x) 
-             || (circles[i].x + circles[i].r + circles[i].vx > container.width)){
-                circles[i].vx = -circles[i].vx;
-             }
-             if((circles[i].y - circles[i].r + circles[i].vy < container.y) 
-             || (circles[i].y + circles[i].r + circles[i].vy > container.height)){
-                 circles[i].vy = -circles[i].vy;
-             }
-             circles[i].x +=circles[i].vx;
-             circles[i].y +=circles[i].vy;
+            // c.fillStyle = circles[i].color;
+            c.fillStyle = `hsl(${genRandom(0, 360, 1)}, 100%, 50%)`;
+            c.beginPath();
+            c.arc(circles[i].x,circles[i].y,circles[i].r,0,2*Math.PI,false);
+            c.fill();
+            if((circles[i].x - circles[i].r + circles[i].vx < container.x) 
+            || (circles[i].x + circles[i].r + circles[i].vx > container.width)){
+              circles[i].vx = -circles[i].vx;
+            }
+            if((circles[i].y - circles[i].r + circles[i].vy < container.y) 
+            || (circles[i].y + circles[i].r + circles[i].vy > container.height)){
+              circles[i].vy = -circles[i].vy;
+            }
+            circles[i].x +=circles[i].vx;
+            circles[i].y +=circles[i].vy;
           }
           // repeat animations iff Start button is clicked otherwise just draw once
           if(animate) {
