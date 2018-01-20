@@ -57,7 +57,7 @@
           //   {x:100,y:100,r:100,vx:2,vy:2.4,color:"rgba(255,0,0,0.5)"},
           //   {x:400,y:100,r:60,vx:-4,vy:3,color:"rgba(0,0,255,0.5)"},
         		// {x:100,y:200,r:40,vx:3,vy:1.5,color:"rgba(0,255,0,0.5)"},
-        		{x:200,y:100,r:50,vx:2,vy:1,color:"rgba(255,0,0,0.5)"}
+        		{x:200,y:100,r:50,vx:2,vy:1,color:`hsl(${genRandom(0, 360, 1)}, 100%, 50%)`}
         ];
 
         // returns random number between min and max (we can provide steps also)
@@ -88,8 +88,8 @@
           c.fillStyle = 'yellow';
           c.fillRect(container.x,container.y,container.width,container.height);
           for(var i=0; i <circles.length; i++){
-            // c.fillStyle = circles[i].color;
-            c.fillStyle = `hsl(${genRandom(0, 360, 1)}, 100%, 50%)`;
+            c.fillStyle = circles[i].color;
+            // c.fillStyle = `hsl(${genRandom(0, 360, 1)}, 100%, 50%)`;
             c.beginPath();
             c.arc(circles[i].x,circles[i].y,circles[i].r,0,2*Math.PI,false);
             c.fill();
@@ -110,7 +110,7 @@
           }
         }
         
-        // animate = true; // to start the animation automatically
+        animate = true; // to start the animation automatically
         gloabalId = requestAnimationFrame(draw);
 
         // Event Listeners
