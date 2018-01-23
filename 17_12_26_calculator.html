@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculator</title>
+  <style>
+  .clearfix {
+    clear: both;
+  }
+  .wrapper {
+    background: orange;
+    max-width: 400px;
+    margin: 10px auto 0;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  input {
+    width: 50%;
+    float: left;
+    box-sizing: border-box;
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+  }
+  button {
+    width: 20%;
+    float: left;
+    padding: 10px;
+  }
+  .buttons {
+    margin-top: 10px;
+  }
+  .result {
+    background: rgba(255,255,255,0.3);
+    padding: 10px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <input type="text" id="input01">
+    <input type="text" id="input02">
+    <div class="clearfix"></div>
+    <div class="buttons">
+      <button value="+">+</button>
+      <button value="-">-</button>
+      <button value="/">/</button>
+      <button value="*">*</button>
+      <button value="%">%</button>
+      <div class="clearfix"></div>
+    </div>
+    <div class="result">...</div>
+  </div>
+
+  <script>
+  var buttons = document.querySelectorAll('button');
+
+  for(var i = 0; i<buttons.length; i++) {
+    buttons[i].addEventListener('click', calculate);
+  }
+
+  function calculate() {
+    var a = parseInt(document.querySelector('#input01').value);
+    var b = parseInt(document.querySelector('#input02').value);
+
+    if(this.value == "+") {
+      result = a + b;
+    } else if(this.value == '-') {
+      result = a - b;
+    } else if(this.value == '/') {
+      result = a / b;
+    } else if(this.value == '*') {
+      result = a * b;
+    } else if(this.value == '%') {
+      result = a % b;
+    }
+
+    document.querySelector('.result').innerHTML = result;
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+Topic: Normal Flow and Flexbox Layout
+
+1. Normal Flow:
+
+   Webpages are composed of many lines and they are called baselines.
+   All items are aligned on baseline.
+   This concept is know as Normal Flow.
+   
+2. In CSS when we use, 
+   Position - Absolute and Relative (especially Absolute)
+   Float - Left and Right (especially Left)
+   These are excluding from Normal Flow where we can move items on the Web page.
+
+3. Suppose we have a <div> tag
+
+   Eg: 	<div>
+		<h1>Vinay</h1>
+	</div>
+
+4. Annother Normal Flow, say
+
+   Eg: 1) div-margin: 20px; - (This value is taken)
+          h1-margin: 10px;
+
+       2) div-margin: 10px;
+          h1-margin: 20px; - (This value is taken)
+
+5. If the margin top or bottom is adjacent or 
+   both parent or child has neighbouring tag,
+   the greater value is used.
+   This is known as Margin-Collapsing or Collapse-Margin.
+
+6. Since we had to measure and do calculation on applying the values,
+
+   1) Flexbox Layout(IE10+)
+
+      - Flexbox Layout was implemented by Internet Explorer.
+
+      - If you use box in a web page we have to use Flexbox Property.
+
+   2) How to use:- Give the box,
+      
+      eg: display: flex;
+
+
+5. For an example, 
+   if we are going to apply Flexbox property for an header containing Logo and utility
+
+   1) The conatiner should have,
+
+      eg: display: flex;
+
+Note-1: (First target the middle level and then the left right of the header section).
+
+   2) Annother special property : justify
+
+      i) Instead of using position property 
+
+           eg: position: left; 
+	       position: right;
+
+      ii) We can use 
+
+           eg: justify-content: space-between;
+
+   3) Flexbox for vertical alignment: We can use,
+
+       eg: display: flex;
+	   flex-direction: column;
+
+4) Using Flexbox layout properties, it becomes easy than Normal Flow concept.
+
+5) In mobile: Use
+ 
+       eg: flex-direction: column;
+
+6) In desktop: i) Remove 
+
+       eg: flex-direction: column;
+
+               ii) Use 
+
+       eg: flex-direction: row;
+7) Flex grow:
+
+   1) To divide two containers in terms of width we use, 
+       
+       eg: flex-grow: 1; 
+
+   2) To arrange them to desired order use order property,
+      
+       eg: order: 2;
+
+Note-2:
+Incase of column its height.(default height gets fixed)
+Incase of row its width.
+
+Conclusion: All these properties are designed for box layout.
+
+
+
+
+

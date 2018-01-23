@@ -1,0 +1,79 @@
+1. 1) HTML and CSS is for User Interface.
+   2) Javascript is for Logic.
+
+2. Html 
+   1) <body>
+
+   - Semantics
+   - Structure(eg: bone) - Indentation.
+     For step by step structure:
+	Front-End: four spaces
+	Back-End: two spaces
+   - Accessibility - Accessible by the user.
+      eg: <li> tag, rollon.
+
+3. Introduction on ARIA which stands for Accessibility Rich Internet Application.
+
+   1) ARIA has a set of attributes to help enhance the semantics of a web site or
+      web application to help assistive technologies, 
+      such as screen readers for the blind,
+      make sense of certain things that are not native to HTML.
+
+   2) Every website has a layout: 
+
+	- HEADER
+   - The top section consisting Logo is using <div>. 
+   - Then the section consisting of Navigation is Global Navigation.
+   - The section including Logo and the Navigation is header
+   - Sometimes next to Logo you might find some button 
+     which is known as CTA (call to action) and that section is Utility.
+   - If you find the location finder then that is using the <address> tag.
+
+	- MAIN
+   - The next below section which consists of main visual is known as 
+     Hero, Main Visual, Mast head. 
+   - If it consists of any <h1> tag then, it indicates heading.
+
+4. For navigation we use,
+       
+     1) <nav>
+		<ul>
+			<li>_</li>
+		</ul>
+	</nav>
+
+
+     2) So in the <nav> tag we can add ARIA attribute,
+
+        <nav role="navigation" aria-label="Global Navigation">
+
+           - role : is used to specify the role of the tag (where it belongs).
+
+           - aria-label : This attribute is case-insensitive. 
+                        : You need to specify the full name as you speak.
+
+5. A good development practice is when,
+
+    1) class is used for css (eg: class="hero")
+    2) Id is used for Javascript (eg: id="hero")
+
+
+6. If we have a form say,
+
+    1) <h2>Hobbies options</h2>
+       <input type="radio"...>
+
+    2) We can use,
+
+      <h2 id="hobbyoptions">
+      <input type="radio" aria-labelledby="hobbyoptions">
+
+7. Naming concention for css: 
+   
+   - eg: login button
+
+   1) class="TYPE_ROLE_MOD"
+   2) class="button"
+   3) class="button_login"
+   4) class="button_login_small";
+   5) id="lowerCamelCase"

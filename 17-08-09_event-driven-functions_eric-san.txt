@@ -1,0 +1,97 @@
+Recap: 
+1. If you want to select tag using css - use class
+2. Style for button - use class="button"
+3. Usually button style will be inherited - class="button_login"
+   Inheritance is possible and .SCSS is automatically compiled to .css in Atom.
+   eg: .button{
+          .....
+	}
+       .button_login{
+	  @extend .button;
+        }
+       class="button_login_small"
+
+Note-1: _(underscore) is better to use because we can select the word quickly
+which is time saving.
+
+Topic: JavaScript
+
+1. JavaScript execution is time costing nowadays.
+   1) The mechanism behind Javascript is: 
+      - In the Web browser/background Javascript is implement in queue system
+        know as Call Stack.
+   2) Call stack
+   eg: function main()
+       {
+        Hello();
+       }
+       function Hello()
+       {
+         console.log('a');
+       }
+
+    3) In the call stack first the Hello() will be executed and then the main().
+    4) The call stack is done by Javascript Engine.
+
+Note-2: "V8" is the famous Javascript Engine.
+
+2. If Javascript function have heavy contents, computer gets stuck 
+like loading, slow cursor movement etc.
+   1) We all know that Javscript is an event oriented which means 
+      Event loop mechanism is implemented.
+   2) The Event Loop mechanism leaves the heavy function outside by using, 
+      eg: setTimeout(videoChat.callNow) - waiting never breaks
+
+3. XMLHttpRequest is Ajax- which never waits till the response comes back.
+   eg: addEventListener()
+   1) Once you set the event handler it waits and calls the call stack.
+
+4. <iFrame>
+   To seperate the execution of 1 Javascript file.
+ 
+5. Web Worker
+   eg: new Worker(annother.js) - which will be executed by annother Javascript Engine.
+
+Note-3: Annother Javascript Engine is like annother instance which provides more fast execution.
+
+5. set Timeout(heavy) - Execute as soon as possible.
+   Such prgramming is known as  Non-blocking I/O.
+
+   eg: var videoChat = (function () {
+ 
+        var my = {}
+ 
+        my.callNow = function () {
+ 
+         ....
+ 
+        }
+  
+         return my
+
+        })()
+
+
+
+       callNowBtn.addEventListener('click', function () {
+
+         setTimeout(videoChat.callNow)
+
+      })
+
+6. For many many click event to optimize we use:
+
+   eg: button.addEventListener('click',function(){
+	   setTimeout(videoModule.callNow)
+       })    
+
+Conclusion: 1) try to use these functions
+            2) In the script analyse the push and pop that takes place in the call stack. 
+            3) Once execute the call stack is free.
+
+
+
+
+
+
+

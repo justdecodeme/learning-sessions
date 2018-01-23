@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------------------------------
+Steps to be followed to host website in GitHub :
+-------------------------------------------------------------------------------------------------------
+1. Signup on the Github (If you do not have account).
+2. Install GitHub Desktop in you PC (Link: https://desktop.github.com/).
+3. Authenticate with your credential in the installed GitHub Desktop.
+4. Create a repository on GitHub.
+5. Clone that repository to your PC.
+6. Open repository in atom.
+7. Do some changes in your html, css & js files.
+8. After that just write summary in the GitHub Desktop.
+9. Click commit to master & select push origin, it will be upload to your GitHub cloud.
+10. Go to setting on GitHub website, then select the repository you want to upload.
+	Then go to setting & find GitHub Pages option in that select "master branch" & click on save.
+11. Your site is published.
+-------------------------------------------------------------------------------------------------------
